@@ -56,3 +56,11 @@
     "vitest": "^2.0.5"
   }
 }
+
+*//Vercel Build Test*
+
+{
+  "scripts" {
+    "build": "vite build --output public"
+  }
+}
