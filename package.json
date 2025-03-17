@@ -56,9 +56,3 @@
     "vitest": "^2.0.5"
   }
 }
-
-{
-  "scripts" {
-    "build": "vite build --output public"
-  }
-}
