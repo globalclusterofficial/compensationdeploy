@@ -18,3 +18,9 @@ export default defineConfig({
   },
 });
 
+
+{
+  "scripts": {
+    "build": "[my-framework] build --output public"
+  }
+}
