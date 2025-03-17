@@ -17,3 +17,9 @@ export default defineConfig({
     setupFiles: "./src/tests/setup.js", // assuming the test folder is in the root of our project
   },
 });
+
+//testing vercel deployment
+"scripts": {
+  "build": "vite build"
+}
+
