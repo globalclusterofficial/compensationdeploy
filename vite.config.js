@@ -20,6 +20,6 @@ export default defineConfig({
 
 //testing vercel deployment
 "scripts"; {
-  "build": "vite build"
+  "build"; "vite build"
 }
 
