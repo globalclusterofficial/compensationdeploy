@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+
+  /* Creating animations for dark mode */
+  transition:
+    background-color 0.3s,
+    border 0.3s;
+  scrollbar-width: thin;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Host Grotesk", sans-serif;
+  color: #1e293b;
+
+  transition:
+    color 0.3s,
+    background-color 0.3s;
+  min-height: 100vh;
+  line-height: 1.5;
+  font-size: 1.6rem;
+  overflow-x: hidden;
+}
+
+.active {
+  background-color: #0369a1;
+  border-radius: 1rem;
+}
