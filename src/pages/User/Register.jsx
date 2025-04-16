@@ -8,6 +8,7 @@ import { useUser } from "../../hooks/auth/useUser";
 import { useForm } from "react-hook-form";
 import { useSignupMutation } from "../../features/auth/authApiSlice";
 import { useNavigate } from "react-router-dom";
+import ShowPaymentProof from "../../components/ShowPaymentProof";
 
 function Register() {
   const { user } = useUser();
@@ -41,20 +42,43 @@ function Register() {
       sponsor = "Admin";
   }
   const onSubmit = async (data) => {
+    console.log(data);
+    const form = new FormData();
+    const keys = Object.keys(data);
+    keys.forEach((key) => {
+      console.log(typeof data[key]);
+      if (typeof data[key] === "object") {
+        // if its file field
+        form.append(key, data[key][0]);
+      } else {
+        form.append(key, data[key]);
+      }
+    });
+    form.append("name", data.first_name + " " + data.last_name);
+    form.append("user_type", "individual");
+    form.append("sponsor", sponsor);
+    form.append("sponsor_id", sponsor_id);
+    form.append("membership_package", "membership_package");
+    form.append("price", "1000");
+    form.append("position", position);
+    // console.log(form);
+    // return;
     try {
-      const responseData = await signup({
-        ...data,
-        name: data.first_name + " " + data.last_name,
-        user_type: "individual",
-        sponsor: sponsor,
-        sponsor_id: sponsor_id,
-        membership_package: "membership_package",
-        price: "1000",
-        position,
-      }).unwrap();
+      // const responseData = await signup({
+      //   ...data,
+      //   name: data.first_name + " " + data.last_name,
+      //   user_type: "individual",
+      //   sponsor: sponsor,
+      //   sponsor_id: sponsor_id,
+      //   membership_package: "membership_package",
+      //   price: "1000",
+      //   position,
+      // }).unwrap();
+      const responseData = await signup(form).unwrap();
 
       NextFormPage();
     } catch (error) {
+      console.log({ error });
       if (error.response) {
         console.error("Server Error:", JSON.stringify(error.response));
       } else if (error.request) {
@@ -90,6 +114,7 @@ function Register() {
   return (
     <div className=" bg-gray-50 ">
       <Header />
+      {/* <ShowPaymentProof /> */}
       <div className="bg-white m-10  border rounded-xl text-[60%] lg:text-[100%]">
         <div className="bg-gray-50  m-10 rounded-xl ">
           <div className="  my-10 flex lg:gap-10 lg:p-10  items-center">
@@ -137,7 +162,12 @@ function Register() {
               <RegisterNowStep1 position={position} setPosition={setPosition} />
             )}
             {regForm === 2 && (
-              <ContactInformationStep2 register={register} errors={errors} />
+              <ContactInformationStep2
+                register={register}
+                errors={errors}
+                getValues={getValues}
+                watch={watch}
+              />
             )}
             {regForm === 3 && (
               <LoginInformationStep3

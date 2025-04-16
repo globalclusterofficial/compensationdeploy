@@ -2,8 +2,39 @@ import React from "react";
 import PropTypes from "prop-types";
 import countries from "../lib/countries.json";
 import genders from "../lib/genders.json";
+import { cn } from "../lib/utils";
+import { FaTimes } from "react-icons/fa";
 
-const ContactInformationStep2 = ({ register, errors }) => {
+const ContactInformationStep2 = ({ register, errors, getValues, watch }) => {
+  watch("payment_proof");
+  const formValues = getValues();
+  const paymentProofValue = formValues.payment_proof;
+  console.log(formValues);
+  const imageRef = React.useRef(null);
+  // const [profilePhoto, setProfilePhoto] = React.useState(null);
+
+  const handlePaymentProofChange = (e) => {
+    console.log(paymentProofValue);
+    let file = null;
+    if (paymentProofValue instanceof Blob) {
+      file = paymentProofValue;
+    } else if (paymentProofValue.files && paymentProofValue.files.length > 0) {
+      file = paymentProofValue.files[0];
+    }
+    if (file) {
+      const src = URL.createObjectURL(file);
+      console.log(src);
+      if (imageRef.current) imageRef.current.src = src;
+      // setImage && setImage(file);
+    }
+    // const src = URL.createObjectURL(e.target.value);
+    // if (imageRef.current) imageRef.current.src = src;
+  };
+
+  const handleClick = () => {
+    // setProfilePhoto && setProfilePhoto(undefined);
+    if (imageRef.current) imageRef.current.src = null;
+  };
   return (
     <div className="mx-auto my-6 text-gray-500">
       <div className="flex gap-2">
@@ -146,6 +177,75 @@ const ContactInformationStep2 = ({ register, errors }) => {
           <p className="text-red-500">{errors.phone_number.message}</p>
         )}
       </div>
+
+      <div className="relative h-[200px] w-[200px] border-2">
+        <img
+          alt=""
+          className={cn(
+            "absolute w-full h-full",
+            imageRef.current && !imageRef.current.src && "invisible",
+          )}
+          ref={imageRef}
+        />
+        <label
+          htmlFor="payment_proof"
+          className={cn(
+            "group absolute w-full h-full flex justify-center items-center cursor-pointer",
+            imageRef.current && imageRef.current.src
+              ? "hover:bg-slate-900/30"
+              : "hover:bg-slate-300 dark:hover:bg-opacity-90",
+          )}
+        >
+          <button
+            type="button"
+            onClick={() => handleClick()}
+            className="absolute right-0 top-0 invisible group-hover:visible"
+          >
+            <FaTimes />
+          </button>
+          <span
+            className={cn(
+              "p-2 text-center font-bold rounded-lg py-2 tracking-wider text-lg active:bg-slate-700 hover:bg-slate-500",
+              // 'dark:ring-1 dark:ring-white dark:hover:bg-slate-300 dark:hover:text-black',
+              imageRef.current &&
+                imageRef.current.src &&
+                "opacity-0 group-hover:opacity-100 transition-opacity",
+            )}
+          >
+            click to upload payment proof
+          </span>
+          <input
+            type="file"
+            id="payment_proof"
+            accept="application/pdf,image/png,image/jpeg"
+            className="hidden"
+            onChange={handlePaymentProofChange}
+            {...register("payment_proof", {
+              required:
+                "You need to upload document that shows proof of payment",
+            })}
+          />
+        </label>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <label className="p-2" htmlFor="payment_proof">
+          Proof of payment
+        </label>
+        <input
+          className="p-6 border outline-none rounded-md"
+          type="file"
+          id="payment_proof"
+          accept="application/pdf,image/png,image/jpeg"
+          onChange={handlePaymentProofChange}
+          {...register("payment_proof", {
+            required: "You need to upload document that shows proof of payment",
+          })}
+        />
+        {errors.payment_proof && (
+          <p className="text-red-500">{errors.payment_proof.message}</p>
+        )}
+      </div>
     </div>
   );
 };
@@ -153,6 +253,8 @@ const ContactInformationStep2 = ({ register, errors }) => {
 ContactInformationStep2.propTypes = {
   register: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
+  getValues: PropTypes.func.isRequired,
+  watch: PropTypes.func.isRequired,
 };
 
 export default ContactInformationStep2;

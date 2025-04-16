@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useUser } from "../hooks/auth/useUser";
 import useProfilePicture from "../hooks/useProfilePic.js";
 import useProfileDetails from "../hooks/useUserProfileDetails.js";
 import PropTypes from "prop-types";
 import { BASE_URL } from "../lib/constants";
 import BusinessImg from "../assets/images/BusinessImg.png";
+import { GoVerified } from "react-icons/go";
+import { RiVerifiedBadgeFill } from "react-icons/ri";
+import Modal from "./Modal.jsx";
+import PaymentProofModal from "./PaymentProofModal.jsx";
+import { useGetUserProfileUnVerifyMutation } from "../features/user/userApiSlice.js";
 
 const capitalizeFirstLetter = (string) => {
   if (!string) return string;
@@ -16,7 +21,10 @@ const capitalizeFirstLetter = (string) => {
 
 const UserCredentials = ({ userData, adminPage, nonUser, business }) => {
   const profilePicture = useProfilePicture();
-  const profileDetails = useProfileDetails();
+  // const profileDetails = useProfileDetails();
+  const [selectUser, setSelectedUser] = useState(null);
+  const [getUserProfileUnVerify] = useGetUserProfileUnVerifyMutation();
+
   const { user } = useUser();
   const fullName = adminPage ? userData?.name : user?.profile?.name || "";
   let image_url;
@@ -35,6 +43,11 @@ const UserCredentials = ({ userData, adminPage, nonUser, business }) => {
         : profilePicture;
   }
 
+  const removeVerification = () => {
+    getUserProfileUnVerify(userData.id);
+    window.location.reload();
+  };
+
   return (
     <section className="px-10 mx-14 my-6 shadow-[0_0_10px_rgba(0,0,0,0.1)] ">
       <div className="p-6 flex flex-col lg:flex-row gap-10 items-center">
@@ -47,6 +60,12 @@ const UserCredentials = ({ userData, adminPage, nonUser, business }) => {
           <div className="flex flex-col gap-8 px-16 ">
             <p className="font-semibold">Name</p>
             <p className="text-gray-400">{fullName}</p>
+            <p className="flex items-center gap-2">
+              {fullName}
+              {userData.is_verified && (
+                <RiVerifiedBadgeFill className="fill-green-600 bg-green-600text-3xl" />
+              )}
+            </p>
           </div>
           {nonUser && (
             <div className="flex flex-col gap-8 px-16 ">
@@ -87,6 +106,34 @@ const UserCredentials = ({ userData, adminPage, nonUser, business }) => {
                     adminPage ? userData?.rank : user?.profile?.rank,
                   ) || ""}
                 </p>
+                {!!selectUser && (
+                  <Modal>
+                    <PaymentProofModal
+                      user={selectUser}
+                      setSelectedUser={setSelectedUser}
+                    />
+                  </Modal>
+                )}
+              </div>
+              <div className="flex gap-4 ml-auto">
+                <button
+                  className="bg-primary-light text-white font-semibold w-fit mt-5
+                      px-4 py-4 rounded-md flex items-center justify-center gap-4 hover:bg-primary-dark cursor-pointer select-none"
+                  onClick={() => setSelectedUser(userData)}
+                  disabled={user.is_verified}
+                >
+                  view receipt
+                </button>
+                {userData.is_verified && (
+                  <button
+                    className="bg-primary-light text-white font-semibold w-fit mt-5
+                      px-4 py-4 rounded-md flex items-center justify-center gap-4 hover:bg-primary-dark cursor-pointer select-none"
+                    onClick={() => removeVerification()}
+                    disabled={user.is_verified}
+                  >
+                    remove verification
+                  </button>
+                )}
               </div>
             </>
           )}

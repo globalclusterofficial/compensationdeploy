@@ -31,13 +31,15 @@ const LoginForm = ({ setShowResetForm }) => {
     try {
       let responseData;
       let navigatePath;
-
+      console.log("first");
       switch (loginType) {
         case TypeLogin.INDIVIDUAL:
+          console.log("second");
           responseData = await login({
             ...data,
             user_type: loginType,
           }).unwrap();
+          console.log(responseData);
           navigatePath = "/user/dashboard";
           setNotification({ message: "Welcome!", type: "success" });
           setTimeout(() => {
@@ -45,6 +47,7 @@ const LoginForm = ({ setShowResetForm }) => {
           }, 2000);
           break;
         case TypeLogin.BUSINESS:
+          console.log("third");
           responseData = await loginBusiness({
             ...data,
             user_type: "company",

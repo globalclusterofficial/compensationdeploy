@@ -7,6 +7,7 @@ import {
   useGetPayoutsQuery,
 } from "../../features/user/userApiSlice";
 import TableData from "../../components/ui/TableData.jsx";
+// import TableDataNew from "../../components/ui/TableDataNew";
 import Pagination from "../../components/Pagination.jsx";
 import Notification from "../../components/ui/Notification.jsx";
 import PageDataHeader from "../../components/ui/PageDataHeader";
@@ -17,6 +18,7 @@ function Payouts() {
   const [payoutDate, setPayoutDate] = useState([]);
   const [tabs, setTabs] = useState("requests");
   const { data: payoutData = [], error, isLoading } = useGetPayoutsQuery();
+  console.log(payoutData);
   const { data: banksData = {} } = useFetchBanksQuery();
   const requestData = payoutData.filter(
     (payout) => payout.status === "pending",

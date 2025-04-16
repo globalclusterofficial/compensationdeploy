@@ -14,6 +14,36 @@ export const UserApiSlice = globalClusterApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    fetchUserPaymentProof: builder.query({
+      query: (userId) => ({
+        url: `/api/v1/accounts/payment_proof/${userId}`,
+        method: "GET",
+        // params: {
+        //   profile_id: userId
+        // },
+        responseType: "blob",
+      }),
+    }),
+    // signup: builder.mutation({
+    //   query: (signupData) => ({
+    //     url: "/api/v1/accounts/signup/",
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "multipart/form-data"
+    //     },
+    //     body: signupData,
+    //   }),
+    // }),
+    fetchUserPaymentProofUpload: builder.mutation({
+      query: (data) => ({
+        url: `/api/v1/accounts/payment_proof/upload/`,
+        method: "POST",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        body: data,
+      }),
+    }),
     getAllUsers: builder.mutation({
       query: () => ({
         url: "/api/v1/accounts/individuals/?all=true",
@@ -186,6 +216,24 @@ export const UserApiSlice = globalClusterApi.injectEndpoints({
         }),
       }),
     }),
+    getUserProfileVerify: builder.mutation({
+      query: (userId, verify) => ({
+        url: `/api/v1/referrals/individuals/user_profile_verify/`,
+        method: "POST",
+        body: JSON.stringify({
+          userId,
+        }),
+      }),
+    }),
+    getUserProfileUnVerify: builder.mutation({
+      query: (userId, verify) => ({
+        url: `/api/v1/referrals/individuals/user_profile_unverify/`,
+        method: "POST",
+        body: JSON.stringify({
+          userId,
+        }),
+      }),
+    }),
     getUserNetworkData: builder.mutation({
       query: (userId) => ({
         url: `/api/v1/accounts/individuals/user_network_data/`,
@@ -216,6 +264,7 @@ export const {
   useGetUsersMutation,
   useGetAllDownlineQuery,
   useFetchUserQuery,
+  useFetchUserPaymentProofQuery,
   useGetIndividualsMutation,
   useDeleteUserMutation,
   useAcceptRegistrationMutation,
@@ -236,6 +285,9 @@ export const {
   useGetPendingUsersMutation,
   useGetNonPendingUsersMutation,
   useGetUserDataAdminMutation,
+  useGetUserProfileVerifyMutation,
+  useGetUserProfileUnVerifyMutation,
+  useFetchUserPaymentProofUploadMutation,
   useGetUserNetworkDataMutation,
   useGetAllEarningsQuery,
   useGetAdminDashboardQuery,

@@ -6,6 +6,9 @@ export const AuthApiSlice = globalClusterApi.injectEndpoints({
       query: (signupData) => ({
         url: "/api/v1/accounts/signup/",
         method: "POST",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
         body: signupData,
       }),
     }),

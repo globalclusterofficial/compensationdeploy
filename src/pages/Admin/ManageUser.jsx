@@ -1,7 +1,7 @@
 import AdminDashboardHeader from "./../../components/ui/Header";
 import React, { useEffect, useState } from "react";
 import { itemsPerPage } from "../../lib/constants";
-import UserDataTable from "../../components/UserDataTable";
+import UserDataTable from "../../components/UserDataTableNew.jsx";
 import { IoMdAdd } from "react-icons/io";
 import Filter from "../../components/ui/Filter";
 import Pagination from "../../components/Pagination";

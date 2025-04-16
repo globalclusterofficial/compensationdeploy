@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { GrEdit } from "react-icons/gr";
 import { IoEyeOutline } from "react-icons/io5";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { RiDeleteBin6Line, RiVerifiedBadgeFill } from "react-icons/ri";
 import ConfirmDeletion from "../ConfirmDeletion";
 import Modal from "../Modal";
 import ShowDetailComp from "../ShowDetailComp";
@@ -223,7 +223,12 @@ function TableData({
                       className="w-10"
                     />
                   </div>
-                  <p>{item.username}</p>
+                  <p className="flex items-center gap-2">
+                    {item.name}
+                    {item.is_verified && (
+                      <RiVerifiedBadgeFill className="fill-green-600" />
+                    )}
+                  </p>
                 </td>
                 <td className="p-6">{item.id}</td>
                 <td className="p-6">{convertStandardDate(item.timestamp)}</td>
@@ -270,7 +275,12 @@ function TableData({
                       className="w-10"
                     />
                   </div>
-                  <p>{item.username}</p>
+                  <p className="flex items-center gap-2">
+                    {item.name}
+                    {item.is_verified && (
+                      <RiVerifiedBadgeFill className="fill-green-600" />
+                    )}
+                  </p>
                 </td>
                 <td className="p-6">{item.id}</td>
                 <td className="p-6">{convertStandardDate(item.timestamp)}</td>

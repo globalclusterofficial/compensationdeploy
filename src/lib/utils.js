@@ -1,4 +1,6 @@
 import { BASE_URL } from "./constants";
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 /**
  * Converts a standard date string into a formatted date string.
@@ -120,3 +122,7 @@ export const getDateStr = (str) => {
   const monthName = months[monthIndex];
   return `${monthName}-${day}-${year}`;
 };
+
+export function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}

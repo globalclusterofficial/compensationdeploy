@@ -3,6 +3,7 @@ import UserDataTable from "../../components/UserDataTable";
 import Header from "./../../components/ui/Header";
 import Pagination from "../../components/Pagination";
 import { useGetAllUsersMutation } from "../../features/user/userApiSlice";
+import UserDataTableNew from "../../components/UserDataTableNew";
 
 function Registrations() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,13 +38,14 @@ function Registrations() {
     };
     fetchUsers();
   }, []);
+  // console.log({paginatedData})
   return (
     <div className="bg-gray-50">
       <Header />
       <main className="bg-white m-8 lg:m-20 p-10 rounded-lg">
         <h2 className="text-4xl font-semibold">Registrations</h2>
         <div className="mt-3 p-0 lg:p-20">
-          <UserDataTable
+          <UserDataTableNew
             type="default"
             data={paginatedData}
             tableHeadNames={[
@@ -52,6 +54,7 @@ function Registrations() {
               "Email",
               "Date",
               "Status",
+              "Payment proof",
               "Action",
             ]}
           />

@@ -3,7 +3,8 @@ import { BASE_URL, WEBSITE_NAME } from "./constants";
 
 // Create an Axios instance with base URL and default headers
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
+  // baseURL: import.meta.env.VITE_BASE_URL,
+  baseURL: "http://127.0.0.1:8000",
 });
 
 // Custom request interceptor

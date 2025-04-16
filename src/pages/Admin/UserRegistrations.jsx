@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import UserDataTable from "../../components/UserDataTable";
+// import UserDataTable from "../../components/UserDataTable";
+import UserDataTableNew from "../../components/UserDataTableNew.jsx";
 import Header from "./../../components/ui/Header";
 import Pagination from "../../components/Pagination";
 import {
@@ -91,10 +92,17 @@ function AdminUserRegistrations() {
               showDownload={true}
             />
             <div className="py-20 px-2">
-              <UserDataTable
+              <UserDataTableNew
                 type="default_admin"
                 data={paginatedData}
-                tableHeadNames={["User", "Sponsor", "Email", "Date", "Action"]}
+                tableHeadNames={[
+                  "User",
+                  "Sponsor",
+                  "Email",
+                  "Date",
+                  "payment proof",
+                  "Action",
+                ]}
               />
             </div>
             {itemsPerPage <= usersData.length && (
@@ -114,7 +122,7 @@ function AdminUserRegistrations() {
               showDownload={true}
             />
             <div className="py-20 px-2">
-              <UserDataTable
+              <UserDataTableNew
                 type="default_admin_history"
                 data={paginatedHistory}
                 tableHeadNames={[
