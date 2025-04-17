@@ -80,8 +80,8 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }).concat(globalClusterMiddleware),
-  devTools: true,
-  // devTools: process.NODE_ENV !== "production",
+  // devTools: true,
+  devTools: process.NODE_ENV !== "production",
 });
 
 export const persistor = persistStore(store);
